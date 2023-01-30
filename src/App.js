@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.css'
+import Form from './components/Form'
+import List from './components/List'
+import Banner from './components/Banner'
+
+import { useState,useEffect } from "react"
 
 function App() {
+  const [theme, setTheme] = useState(localStorage.getItem("theme"))
+  const setToggle = () =>{
+    setTheme(theme === "dark" ? "light" : "dark")
+  }
+useEffect(() => {
+  const currentTheme = localStorage.getItem('theme')
+  if (currentTheme) {
+    setTheme(currentTheme)
+  } else {
+    localStorage.setItem('theme', theme)
+  }
+}, [])
+
+useEffect(() => {
+  localStorage.setItem('theme', theme)
+}, [theme])
+
+const className = theme === 'light' ? 'light' : 'dark'
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={className}>
+      <button onClick={setToggle}>{theme === 'dark' ? 'light' : 'dark'}</button>
+      <Form />
+      <Banner />
+      <List />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
